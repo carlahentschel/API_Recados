@@ -13,17 +13,14 @@ import java.util.UUID;
 
 @CrossOrigin(origins = "*")
 @RestController
-@RequestMapping("/users")
+@RequestMapping("/tasks")
 public class UserTaskController {
 
-    @PostMapping("/{idUser}/tasks")
-    public ResponseEntity createTasks(@PathVariable UUID idUser,
-                                      @RequestBody @Valid CreateTask newTask,
+    @PostMapping
+    public ResponseEntity createTasks(@RequestBody @Valid CreateTask newTask,
                                       @RequestHeader ("AuthToken") String token) {
-        var user = DataBase.getUserById(idUser);
-        if(user == null) {
-            return ResponseEntity.badRequest().body(new ErrorData("Usuário não localizado."));
-        }
+        var user = DataBase.getUserById(newTask.userId());
+
         if(!user.isAuthenticated(token)) {
             return ResponseEntity.badRequest().body(new ErrorData("Token inválido."));
         }
@@ -31,7 +28,7 @@ public class UserTaskController {
         return ResponseEntity.noContent().build();
     }
 
-    @GetMapping("/{idUser}/tasks")
+    @GetMapping("/{idUser}")
     public ResponseEntity getAllTasks(@PathVariable UUID idUser,
                                       @RequestHeader ("AuthToken") String token,
                                       @RequestParam(required = false) String title,
@@ -63,7 +60,7 @@ public class UserTaskController {
         return ResponseEntity.ok().body(tasks.stream().map(OutputTask::new).toList());
     }
 
-    @DeleteMapping("/{idUser}/tasks/{idTask}")
+    @DeleteMapping("/{idUser}/{idTask}")
     public ResponseEntity deleteTask(@PathVariable UUID idUser,
                                      @PathVariable UUID idTask,
                                      @RequestHeader ("AuthToken") String token) {
@@ -85,7 +82,7 @@ public class UserTaskController {
         return ResponseEntity.ok().build();
     }
 
-    @PutMapping("/{idUser}/tasks/{idTask}")
+    @PutMapping("/{idUser}/{idTask}")
     public ResponseEntity updateTask(@PathVariable UUID idUser,
                                      @PathVariable UUID idTask,
                                      @RequestBody UpdateTask taskUpdated,
@@ -105,7 +102,7 @@ public class UserTaskController {
         }
         taskOptional.get().updateTask(taskUpdated);
 
-        return ResponseEntity.noContent().build();
+          return ResponseEntity.noContent().build();
     }
 
 }
