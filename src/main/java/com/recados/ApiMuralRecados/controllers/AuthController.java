@@ -19,7 +19,7 @@ public class AuthController {
             var user = DataBase.getEmail(login.email());
             if(user.getPassword().equals(login.password())) {
                 var token = user.generateToken();
-                return ResponseEntity.ok().body(new OutputLogin(user.getEmail(), token));
+                return ResponseEntity.ok().body(new OutputLogin(user.getId(), user.getName(), token));
             }
             return ResponseEntity.badRequest().body(new ErrorData("E-mail ou senha inválidos."));
         } catch (Exception e){
