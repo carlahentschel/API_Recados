@@ -24,8 +24,10 @@ public class UserTaskController {
         if(!user.isAuthenticated(token)) {
             return ResponseEntity.badRequest().body(new ErrorData("Token inválido."));
         }
-        user.getTasks().add(new UserTask(newTask));
-        return ResponseEntity.noContent().build();
+
+        var task = new UserTask(newTask);
+        user.getTasks().add(task);
+        return ResponseEntity.ok().body(new OutputTask(task));
     }
 
     @GetMapping("/{idUser}")

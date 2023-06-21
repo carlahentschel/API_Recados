@@ -12,7 +12,6 @@ public record CreateTask(
         String title,
         String description,
         LocalDate date,
-
         @NotNull
         UUID userId
 ) {
