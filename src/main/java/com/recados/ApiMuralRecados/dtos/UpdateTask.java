@@ -8,7 +8,6 @@ public record UpdateTask(
         String description,
         LocalDate date,
         Boolean favorite,
-        Boolean finished,
-        UUID idTask
+        Boolean finished
 ) {
 }
