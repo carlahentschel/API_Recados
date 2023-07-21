@@ -12,7 +12,6 @@ public record CreateUser(
         @NotBlank
         @Email
         String email,
-
         @NotBlank
         String password) {
 

@@ -2,7 +2,6 @@ package com.recados.ApiMuralRecados.models;
 
 import com.recados.ApiMuralRecados.dtos.CreateUser;
 import lombok.Getter;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
