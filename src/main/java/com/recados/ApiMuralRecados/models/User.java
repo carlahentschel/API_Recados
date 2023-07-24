@@ -23,6 +23,7 @@ public class User {
     @OneToMany(fetch = FetchType.EAGER)
     @JoinColumn(name = "id_user")
     private List<UserTask> tasks;
+    @Column(name = "token_login")
     private String tokenLogin;
 
     public User(CreateUser userDto) {

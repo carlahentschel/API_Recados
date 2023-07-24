@@ -26,13 +26,14 @@ public class UserTask {
     @Column(name = "id_user")
     private UUID idUser;
 
-    public UserTask(CreateTask newTask) {
+    public UserTask(CreateTask newTask, UUID idUser) {
         title = newTask.title();
         description = newTask.description();
         date = newTask.date();
         id = UUID.randomUUID();
         favorite = false;
         finished = false;
+        this.idUser = idUser;
     }
 
     public void updateTask(UpdateTask data) {
@@ -51,8 +52,6 @@ public class UserTask {
         if(data.finished() != null) {
             finished = data.finished();
         }
-
     }
-
 
 }
