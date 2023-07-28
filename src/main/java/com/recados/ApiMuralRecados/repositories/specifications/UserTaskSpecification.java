@@ -3,7 +3,6 @@ package com.recados.ApiMuralRecados.repositories.specifications;
 import com.recados.ApiMuralRecados.models.UserTask;
 import jakarta.persistence.criteria.Predicate;
 import org.springframework.data.jpa.domain.Specification;
-
 import java.util.ArrayList;
 
 public class UserTaskSpecification {
