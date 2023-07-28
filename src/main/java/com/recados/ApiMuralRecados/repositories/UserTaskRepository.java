@@ -2,11 +2,9 @@ package com.recados.ApiMuralRecados.repositories;
 
 import com.recados.ApiMuralRecados.models.UserTask;
 import org.springframework.data.jpa.repository.JpaRepository;
-
-import java.util.List;
+import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import java.util.UUID;
 
-public interface UserTaskRepository extends JpaRepository<UserTask, UUID> {
+public interface UserTaskRepository extends JpaRepository<UserTask, UUID>, JpaSpecificationExecutor<UserTask> {
 
-//    List<UserTask> getAllTasksForUser(UUID idUser);
 }
