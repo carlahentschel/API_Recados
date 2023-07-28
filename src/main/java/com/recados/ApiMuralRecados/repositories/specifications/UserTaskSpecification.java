@@ -7,7 +7,7 @@ import org.springframework.data.jpa.domain.Specification;
 import java.util.ArrayList;
 
 public class UserTaskSpecification {
-    public static Specification<UserTask> filterByTitleAndFinishedAndFavorite(String title, boolean finished, boolean favorite) {
+    public static Specification<UserTask> filterByTitleAndFinishedAndFavorite(String title, Boolean finished, Boolean favorite) {
         return (root, query, criteriaBuilder) -> {
             var conditions = new ArrayList<Predicate>();
 
@@ -17,13 +17,13 @@ public class UserTaskSpecification {
                 );
             }
 
-//            if(finished != null) {
-//
-//            }
-//
-//            if(favorite != null) {
-//
-//            }
+            if(finished != null) {
+                conditions.add(criteriaBuilder.equal(root.get("finished"), finished));
+            }
+
+            if(favorite != null) {
+                conditions.add(criteriaBuilder.equal(root.get("favorite"), favorite));
+            }
             return criteriaBuilder.and(conditions.toArray(new Predicate[0]));
         };
     }
