@@ -7,6 +7,7 @@ import com.recados.ApiMuralRecados.dtos.UpdateTask;
 import com.recados.ApiMuralRecados.models.UserTask;
 import com.recados.ApiMuralRecados.repositories.UserRepository;
 import com.recados.ApiMuralRecados.repositories.UserTaskRepository;
+import com.recados.ApiMuralRecados.repositories.specifications.UserTaskSpecification;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,38 +47,28 @@ public class UserTaskController {
         return ResponseEntity.ok().body(new OutputTask(task));
     }
 
-//    @GetMapping("/{idUser}")
-//    public ResponseEntity getAllTasks(@PathVariable UUID idUser,
-//                                      @RequestHeader ("AuthToken") String token,
-//                                      @RequestParam(required = false) String title,
-//                                      @RequestParam(required = false) Boolean finished,
-//                                      @RequestParam(required = false) Boolean favorite) {
-//
-//        var optionalUser = userRepository.findById(idUser);
-//        if(optionalUser.isEmpty()) {
-//            return ResponseEntity.badRequest().body(new ErrorData("Usuário não localizado."));
-//        }
-//        var user = optionalUser.get();
-//        if(!user.isAuthenticated(token)) {
-//            return ResponseEntity.badRequest().body(new ErrorData("Token inválido."));
-//        }
-//
-////        var tasks = userTaskRepository.getAllTasksForUser(idUser);
-//
-////        if(title != null) {
-////            tasks = tasks.stream().filter(t -> t.getTitle().contains((title))).toList();
-////        }
-////
-////        if(finished != null) {
-////            tasks = tasks.stream().filter(t -> t.isFinished() == finished).toList();
-////        }
-////
-////        if(favorite != null) {
-////            tasks = tasks.stream().filter(t -> t.isFavorite() == favorite).toList();
-////        }
-//
-////        return ResponseEntity.ok().body(tasks.stream().map(OutputTask::new).toList());
-//    }
+    @GetMapping("/{idUser}")
+    public ResponseEntity getAllTasks(@PathVariable UUID idUser,
+                                      @RequestHeader ("AuthToken") String token,
+                                      @RequestParam(required = false) String title,
+                                      @RequestParam(required = false) Boolean finished,
+                                      @RequestParam(required = false) Boolean favorite) {
+
+        var optionalUser = userRepository.findById(idUser);
+        if(optionalUser.isEmpty()) {
+            return ResponseEntity.badRequest().body(new ErrorData("Usuário não localizado."));
+        }
+        var user = optionalUser.get();
+        if(!user.isAuthenticated(token)) {
+            return ResponseEntity.badRequest().body(new ErrorData("Token inválido."));
+        }
+
+        var specification = UserTaskSpecification.filterByTitleAndFinishedAndFavorite(title, finished, favorite);
+
+        var data = userTaskRepository.findAll(specification).stream().map(OutputTask::new).toList();
+
+        return ResponseEntity.ok().body(data);
+    }
 
     @DeleteMapping("/{idUser}/{idTask}")
     public ResponseEntity deleteTask(@PathVariable UUID idUser,
@@ -125,7 +116,7 @@ public class UserTaskController {
         task.updateTask(taskUpdated);
         userTaskRepository.save(task);
 
-          return ResponseEntity.noContent().build();
+        return ResponseEntity.noContent().build();
     }
 
 }
