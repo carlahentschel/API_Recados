@@ -31,7 +31,6 @@ public class UserTask {
         title = newTask.title();
         description = newTask.description();
         date = newTask.date();
-        id = UUID.randomUUID();
         favorite = false;
         finished = false;
         this.idUser = idUser;
@@ -54,6 +53,5 @@ public class UserTask {
             finished = data.finished();
         }
     }
-
 
 }
