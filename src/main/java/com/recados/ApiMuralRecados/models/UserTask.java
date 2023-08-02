@@ -7,6 +7,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import java.time.LocalDate;
+import java.util.Optional;
 import java.util.UUID;
 
 @AllArgsConstructor
@@ -53,5 +54,6 @@ public class UserTask {
             finished = data.finished();
         }
     }
+
 
 }
