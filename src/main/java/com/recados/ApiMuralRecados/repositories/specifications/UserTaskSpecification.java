@@ -4,11 +4,14 @@ import com.recados.ApiMuralRecados.models.UserTask;
 import jakarta.persistence.criteria.Predicate;
 import org.springframework.data.jpa.domain.Specification;
 import java.util.ArrayList;
+import java.util.UUID;
 
 public class UserTaskSpecification {
-    public static Specification<UserTask> filterByTitleAndFinishedAndFavorite(String title, Boolean finished, Boolean favorite) {
+    public static Specification<UserTask> filterByTitleAndFinishedAndFavorite(UUID userId, String title, Boolean finished, Boolean favorite) {
         return (root, query, criteriaBuilder) -> {
             var conditions = new ArrayList<Predicate>();
+
+            conditions.add(criteriaBuilder.equal(root.get("idUser"), userId));
 
             if(title != null && !title.isEmpty()) {
                 conditions.add(
