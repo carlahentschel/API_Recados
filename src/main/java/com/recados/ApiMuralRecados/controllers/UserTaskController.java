@@ -63,17 +63,12 @@ public class UserTaskController {
             return ResponseEntity.badRequest().body(new ErrorData("Token inválido."));
         }
 
-        var tasks = user.getTasks();
+        var specification = UserTaskSpecification.filterByTitleAndFinishedAndFavorite(idUser, title, finished, favorite);
 
-        //var specification = UserTaskSpecification.filterByTitleAndFinishedAndFavorite(title, finished, favorite);
+        var data = userTaskRepository.findAll(specification).stream().map(OutputTask::new).toList();
 
-        //var data = userTaskRepository.findAll(specification).stream().map(OutputTask::new).toList();
+        return ResponseEntity.ok().body(data);
 
-        //var data = userTaskRepository.findAllByUserId(idUser, specification);
-
-        //return ResponseEntity.ok().body(data);
-
-        return ResponseEntity.ok().body(tasks.stream().map(OutputTask::new).toList());
     }
 
     @DeleteMapping("/{idUser}/{idTask}")
